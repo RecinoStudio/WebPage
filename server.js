@@ -5,10 +5,10 @@ const fs = require('fs');
 const path = require('path');
 
 // Inicializar Firebase
-const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+const serviceAccount = require('./path/to/your/serviceAccountKey.json'); // Asegúrate de tener la ruta correcta
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://<your-database-name>.firebaseio.com'
+    databaseURL: 'https://juego-multijugador-45b97-default-rtdb.firebaseio.com'
 });
 const db = admin.database();
 
@@ -78,7 +78,7 @@ function savePlayerStatsToFirebase(playerTag, playerName, wins) {
 
 // Función para actualizar los datos de los jugadores del club
 async function updateClubStats() {
-    const clubTag = '2UVURRLCC'; // El tag del club (esto lo puedes personalizar)
+    const clubTag = '2UVURRLCC'; // El tag del club
 
     try {
         // Obtener los miembros del club
@@ -109,6 +109,6 @@ app.listen(port, () => {
     // Actualizar los datos del club al iniciar el servidor
     updateClubStats();
 
-    // Configurar para actualizar cada 5 minutos (300,000 milisegundos)
-    setInterval(updateClubStats, 300000); // 5 minutos
+    // Configurar para actualizar cada 3 minutos (180,000 milisegundos)
+    setInterval(updateClubStats, 180000); // 3 minutos
 });
