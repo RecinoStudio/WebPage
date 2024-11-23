@@ -1,6 +1,25 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, 
-    initial-scale=1.0"> <title>Información de Brawl Stars</title>
-</head> <body> <h1>Información del Jugador</h1> <div id="player-info"> <p>Esperando datos...</p> </div> <script 
-    src="script.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Brawl Stars</title>
+</head>
+<body>
+    <h1>Información del Jugador</h1>
+
+    <!-- Formulario para ingresar el tag del jugador -->
+    <div>
+        <label for="player-tag">Tag del Jugador:</label>
+        <input type="text" id="player-tag" placeholder="Ingresa el tag del jugador" />
+        <button onclick="handlePlayerInfo()">Consultar</button>
+    </div>
+
+    <!-- Sección para mostrar la información del jugador -->
+    <div id="player-info">
+        <p>Esperando datos...</p>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
