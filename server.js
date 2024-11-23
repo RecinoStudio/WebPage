@@ -2,11 +2,12 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const fetch = require('node-fetch');
+const cors = require('cors'); // Importar CORS
 
 const app = express();
 const port = 3000;
 
-// Carga la clave de API desde el archivo
+// Cargar la clave de API desde el archivo
 let API_KEY = '';
 try {
     API_KEY = fs.readFileSync('apikey.txt', 'utf-8').trim();
@@ -14,6 +15,9 @@ try {
     console.error('Error al leer apikey.txt:', err.message);
     process.exit(1);
 }
+
+// Habilitar CORS para permitir solicitudes desde cualquier origen
+app.use(cors());
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
