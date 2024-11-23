@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miembros del Club</title>
 
-    <!-- Importar Firebase SDK desde el CDN -->
+    <!-- Firebase CDN -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-        // Configuración de Firebase (debe ser la misma que la configuración de tu proyecto en Firebase)
+        // Configuración de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBW-gAKIG7FNanxtur3h2aROaB9XNON40Y",
             authDomain: "juego-multijugador-45b97.firebaseapp.com",
@@ -18,62 +18,66 @@
             projectId: "juego-multijugador-45b97",
             storageBucket: "juego-multijugador-45b97.appspot.com",
             messagingSenderId: "182032480602",
-            appId: "1:182032480602:web:8e7c94b002ec54f3641b63",
-            measurementId: "G-VS7N0F3HF0"
+            appId: "1:182032480602:web:8e7c94b002ec54f3641b63"
         };
 
         // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const database = getDatabase(app);
 
-        // Obtener la lista de jugadores desde Firebase
+        // Función para obtener los datos de los jugadores
         async function fetchClubMembers() {
-            const playersRef = ref(db, 'players');
+            const playersRef = ref(database, 'players/');
             try {
                 const snapshot = await get(playersRef);
-                if (snapshot.exists()) {
-                    return snapshot.val();
-                } else {
-                    console.log('No hay datos disponibles.');
-                    return {};
-                }
+                return snapshot.exists() ? snapshot.val() : null;
             } catch (error) {
                 console.error('Error al obtener los datos de Firebase:', error);
-                return {};
+                return null;
             }
         }
 
-        // Mostrar la información de los jugadores
-        async function renderPlayersInfo() {
+        // Función para renderizar la lista de jugadores
+        async function renderClubMembers() {
             const players = await fetchClubMembers();
-            const playersInfoSection = document.getElementById('players-info');
+            const playersContainer = document.getElementById('players-info');
 
-            if (Object.keys(players).length === 0) {
-                playersInfoSection.innerHTML = '<p>No se pudo obtener la información de los jugadores.</p>';
+            if (!players) {
+                playersContainer.innerHTML = '<p>No se encontraron datos de los jugadores.</p>';
                 return;
             }
 
-            const playersHtml = Object.values(players).map(player => {
-                return `
-                    <div>
-                        <h2>${player.name}</h2>
-                        <p><strong>Tag:</strong> ${player.tag}</p>
-                        <p><strong>Victorias:</strong> ${player.wins}</p>
-                    </div>
-                `;
-            }).join('');
-
-            playersInfoSection.innerHTML = playersHtml;
+            // Construir el HTML para la lista de jugadores
+            playersContainer.innerHTML = Object.entries(players).map(([tag, player]) => `
+                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                    <h2>${player.name}</h2>
+                    <p><strong>Tag:</strong> ${tag}</p>
+                    <p><strong>Victorias:</strong> ${player.wins}</p>
+                </div>
+            `).join('');
         }
 
-        // Cargar la información al inicio
-        document.addEventListener('DOMContentLoaded', renderPlayersInfo);
+        // Renderizar la información al cargar la página
+        document.addEventListener('DOMContentLoaded', renderClubMembers);
     </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #players-info div {
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+        }
+    </style>
 </head>
 <body>
     <h1>Miembros del Club</h1>
-
-    <!-- Sección para mostrar los jugadores y sus estadísticas -->
     <div id="players-info">
         <p>Cargando jugadores...</p>
     </div>
