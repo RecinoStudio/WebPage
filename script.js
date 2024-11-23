@@ -32,8 +32,19 @@ async function renderPlayerInfo(playerTag) {
     }
 }
 
+// Maneja la entrada del jugador y consulta la información
+function handlePlayerInfo() {
+    const playerTag = document.getElementById('player-tag').value.trim();
+    
+    if (playerTag) {
+        renderPlayerInfo(playerTag);
+    } else {
+        alert('Por favor, ingresa un tag válido de jugador.');
+    }
+}
+
 // Inicializa la página con un jugador por defecto
 document.addEventListener('DOMContentLoaded', () => {
-    const defaultPlayerTag = 'PULVYRJUC'; // Cambia este ID por el que quieras usar
-    renderPlayerInfo(defaultPlayerTag);
+    // Aquí puedes definir un jugador por defecto o dejar vacío si prefieres solo consultar por entrada
+    const defaultPlayerTag = ''; // Se deja vacío para no cargar nada por defecto
 });
