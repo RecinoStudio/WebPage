@@ -1,24 +1,39 @@
-const fetch = require('node-fetch'); const apiKey = 'YOUR_API_KEY'; // Sustituye con tu API Key const playerTag = 
-'PULVYRJUC'; // Sustituye con el ID de jugador deseado async function fetchPlayerInfo() {
-    const url = `https://api.brawlstars.com/v1/players/%23${playerTag}`; try { const response = await fetch(url, 
-        {
-            headers: { 'Authorization': `Bearer ${apiKey}`,
-            },
-        });
-        if (!response.ok) { throw new Error('Error al obtener la información');
+// Obtén la información del jugador desde el servidor
+async function fetchPlayerInfo(playerTag) {
+    try {
+        const response = await fetch(`/player-info?tag=${playerTag}`);
+
+        if (!response.ok) {
+            throw new Error(`Error en la respuesta del servidor: ${response.status}`);
         }
+
         const data = await response.json();
-        // Acceder a los datos del jugador
-        const playerName = data.name; const trophies = data.trophies; const soloRanked = data.soloShowdownRank; 
-        const duoRanked = data.duoShowdownRank;
-        // Mostrar los datos en el HTML
-        const playerInfoDiv = document.getElementById('player-info'); playerInfoDiv.innerHTML = ` <p>Nombre: 
-            ${playerName}</p> <p>Troféos: ${trophies}</p> <p>Ranking en Solo: ${soloRanked}</p> <p>Ranking en 
-            Duo: ${duoRanked}</p>
-        `;
+        return data;
     } catch (error) {
-        console.error('Error al obtener los datos:', error); document.getElementById('player-info').innerHTML = 
-        `<p>Error al obtener la información del jugador.</p>`;
+        console.error('Error al obtener información del jugador:', error.message);
+        return null;
     }
 }
-fetchPlayerInfo();
+
+// Renderiza la información del jugador en la página
+async function renderPlayerInfo(playerTag) {
+    const playerInfo = await fetchPlayerInfo(playerTag);
+
+    if (playerInfo) {
+        const playerSection = document.getElementById('player-info');
+        playerSection.innerHTML = `
+            <h2>Información del Jugador</h2>
+            <p><strong>Nombre:</strong> ${playerInfo.name}</p>
+            <p><strong>Trofeos:</strong> ${playerInfo.trophies}</p>
+            <p><strong>Rango:</strong> ${playerInfo.expLevel}</p>
+        `;
+    } else {
+        alert('Error al cargar información del jugador. Intenta nuevamente.');
+    }
+}
+
+// Inicializa la página con un jugador por defecto
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultPlayerTag = 'PULVYRJUC'; // Cambia este ID por el que quieras usar
+    renderPlayerInfo(defaultPlayerTag);
+});
