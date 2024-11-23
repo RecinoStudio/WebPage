@@ -3,23 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información de Brawl Stars</title>
+    <title>Miembros del Club</title>
 </head>
 <body>
-    <h1>Información del Jugador</h1>
+    <h1>Miembros del Club</h1>
 
-    <!-- Formulario para ingresar el tag del jugador -->
-    <div>
-        <label for="player-tag">Tag del Jugador:</label>
-        <input type="text" id="player-tag" placeholder="Ingresa el tag del jugador" />
-        <button onclick="handlePlayerInfo()">Consultar</button>
+    <!-- Sección para mostrar los jugadores y sus estadísticas -->
+    <div id="players-info">
+        <p>Cargando jugadores...</p>
     </div>
 
-    <!-- Sección para mostrar la información del jugador -->
-    <div id="player-info">
-        <p>Esperando datos...</p>
-    </div>
+    <script type="module">
+        // Obtener los datos de los jugadores desde el servidor
+        async function fetchClubMembers() {
+            try {
+                const response = await fetch('/players-info'); // Ruta para obtener la información del club
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error al obtener los miembros del club:', error);
+                return [];
+            }
+        }
 
-    <script src="script.js"></script>
+        // Mostrar la información de los jugadores
+        async function renderPlayersInfo() {
+            const players = await fetchClubMembers();
+            const playersInfoSection = document.getElementById('players-info');
+
+            if (players.length === 0) {
+                playersInfoSection.innerHTML = '<p>No se pudo obtener la información de los jugadores.</p>';
+                return;
+            }
+
+            const playersHtml = players.map(player => {
+                return `
+                    <div>
+                        <h2>${player.name}</h2>
+                        <p><strong>Tag:</strong> ${player.tag}</p>
+                        <p><strong>Victorias:</strong> ${player.wins}</p>
+                    </div>
+                `;
+            }).join('');
+
+            playersInfoSection.innerHTML = playersHtml;
+        }
+
+        // Cargar la información al inicio
+        document.addEventListener('DOMContentLoaded', renderPlayersInfo);
+    </script>
 </body>
 </html>
