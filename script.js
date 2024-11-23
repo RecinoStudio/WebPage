@@ -1,50 +1,42 @@
-// Obtén la información del jugador desde el servidor
-async function fetchPlayerInfo(playerTag) {
-    try {
-        const response = await fetch(`/player-info?tag=${playerTag}`);
+// Configurar Firebase (configura con tu información de Firebase)
+const firebaseConfig = {
+    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImIwMWVmNmFjLWYzZmYtNGUwMy04M2M4LTE1NjNkM2U0YmVjMyIsImlhdCI6MTczMjM0MTYwMCwic3ViIjoiZGV2ZWxvcGVyLzA5NDcwZWU2LTM4NjgtNmQ1ZS0xZDQ2LTgxMGFjOWQxNDJhZCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTA0LjE5Ny40Mi42NSIsIjM0LjQ0LjEzMy4zIl0sInR5cGUiOiJjbGllbnQifV19.ZjZR_Yp_HpFwolJM5d_VBlnDDACnyjNTcq7Gkb6fl9pVCpzyb376s5AkDRoTacuiZV8LwxykPoXTO7QOqZsKFw', // Sustituir con tu propia API key
+    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com', // Sustituir con tu Project ID
+    databaseURL: 'https://YOUR_PROJECT_ID.firebaseio.com', // Sustituir con tu URL de base de datos
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    messagingSenderId: 'YOUR_SENDER_ID',
+    appId: 'YOUR_APP_ID'
+};
 
-        if (!response.ok) {
-            throw new Error(`Error en la respuesta del servidor: ${response.status}`);
-        }
+// Inicializar Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database(app);
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error al obtener información del jugador:', error.message);
-        return null;
+// Función para mostrar estadísticas en la página
+async function displayPlayerStats() {
+    const response = await fetch('/players');
+    const players = await response.json();
+
+    const playerInfoDiv = document.getElementById('player-info');
+    if (!players) {
+        playerInfoDiv.innerHTML = '<p>No se pudo obtener información de los jugadores.</p>';
+        return;
     }
-}
 
-// Renderiza la información del jugador en la página
-async function renderPlayerInfo(playerTag) {
-    const playerInfo = await fetchPlayerInfo(playerTag);
-
-    if (playerInfo) {
-        const playerSection = document.getElementById('player-info');
-        playerSection.innerHTML = `
-            <h2>Información del Jugador</h2>
-            <p><strong>Nombre:</strong> ${playerInfo.name}</p>
-            <p><strong>Trofeos:</strong> ${playerInfo.trophies}</p>
-            <p><strong>Rango:</strong> ${playerInfo.expLevel}</p>
+    const playersHtml = Object.keys(players).map(playerTag => {
+        const player = players[playerTag];
+        return `
+            <div>
+                <h2>${player.name}</h2>
+                <p><strong>Tag:</strong> ${playerTag}</p>
+                <p><strong>Trofeos:</strong> ${player.trophies}</p>
+            </div>
         `;
-    } else {
-        alert('Error al cargar información del jugador. Intenta nuevamente.');
-    }
+    }).join('');
+
+    playerInfoDiv.innerHTML = playersHtml;
 }
 
-// Maneja la entrada del jugador y consulta la información
-function handlePlayerInfo() {
-    const playerTag = document.getElementById('player-tag').value.trim();
-    
-    if (playerTag) {
-        renderPlayerInfo(playerTag);
-    } else {
-        alert('Por favor, ingresa un tag válido de jugador.');
-    }
-}
-
-// Inicializa la página con un jugador por defecto
-document.addEventListener('DOMContentLoaded', () => {
-    // Aquí puedes definir un jugador por defecto o dejar vacío si prefieres solo consultar por entrada
-    const defaultPlayerTag = ''; // Se deja vacío para no cargar nada por defecto
-});
+// Llamar a la función para mostrar la información
+displayPlayerStats();
