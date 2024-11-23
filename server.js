@@ -2,80 +2,78 @@ const express = require('express');
 const fetch = require('node-fetch');
 const fs = require('fs');
 
-// Inicialización de Express
+// Crear aplicación Express
 const app = express();
 const port = 3000;
 
-// Leer la API Key de Brawl Stars desde el archivo 'apikey.txt'
+// Leer la API Key de Brawl Stars
 let API_KEY = '';
 try {
-    API_KEY = fs.readFileSync('apikey.txt', 'utf-8').trim();
+    API_KEY = fs.readFileSync('apikey.txt', 'utf-8').trim(); // Lee la API key
 } catch (error) {
     console.error('Error al leer la API key:', error.message);
     process.exit(1);
 }
 
-// Firebase Realtime Database URL
-const FIREBASE_URL = 'https://juego-multijugador-45b97-default-rtdb.firebaseio.com/';
-
-// Función para obtener jugadores del club de Brawl Stars
+// Función para obtener jugadores del club
 async function getClubMembers(clubTag) {
-    try {
-        const response = await fetch(`https://api.brawlstars.com/v1/clubs/${clubTag}/members`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${API_KEY}`,
-            }
-        });
-        if (!response.ok) throw new Error(`Error al obtener jugadores del club: ${response.status}`);
-        const data = await response.json();
-        return data.items; // Retorna los jugadores
-    } catch (error) {
-        console.error('Error al obtener los jugadores del club:', error.message);
-        return [];
-    }
+    const response = await fetch(`https://api.brawlstars.com/v1/clubs/${clubTag}/members`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${API_KEY}`,
+        }
+    });
+    if (!response.ok) throw new Error(`Error al obtener jugadores del club: ${response.status}`);
+    const data = await response.json();
+    return data.items;
 }
 
-// Función para guardar un jugador en Firebase
-async function savePlayerToFirebase(playerTag, playerName, wins) {
-    try {
-        const url = `${FIREBASE_URL}players/${playerTag}.json`;
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: playerName, wins })
-        });
-        if (!response.ok) throw new Error('Error al guardar jugador en Firebase');
-        console.log(`Jugador ${playerName} guardado en Firebase.`);
-    } catch (error) {
-        console.error('Error al guardar jugador:', error.message);
-    }
+// Función para obtener estadísticas de un jugador
+async function getPlayerStats(playerTag) {
+    const response = await fetch(`https://api.brawlstars.com/v1/players/%23${playerTag}`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${API_KEY}`,
+        }
+    });
+    if (!response.ok) throw new Error(`Error al obtener estadísticas del jugador: ${response.status}`);
+    const data = await response.json();
+    return data;
 }
 
-// Función para actualizar las estadísticas de los jugadores
+// Función para actualizar estadísticas de jugadores del club
 async function updateClubStats() {
-    const clubTag = '2UVURRLCC'; // Tag del club (cámbialo si es necesario)
+    const clubTag = '2UVURRLCC'; // Tag del club
     try {
         const members = await getClubMembers(clubTag);
+        const playersStats = [];
+
         for (const member of members) {
-            const playerTag = member.tag.replace('#', ''); // Eliminar el '#' del tag del jugador
+            const playerTag = member.tag.replace('#', ''); // Quitar #
             const playerName = member.name;
-            const wins = Math.floor(Math.random() * 500); // Simulando victorias, cámbialo según lo necesites
-            await savePlayerToFirebase(playerTag, playerName, wins);
+
+            // Obtener estadísticas del jugador
+            const playerStats = await getPlayerStats(playerTag);
+
+            const wins = playerStats.statistics.wins; // Obtener victorias
+            playersStats.push({ name: playerName, tag: member.tag, wins });
         }
+
         console.log('Estadísticas del club actualizadas.');
+        return playersStats; // Retorna las estadísticas
     } catch (error) {
-        console.error('Error al actualizar estadísticas del club:', error.message);
+        console.error('Error al actualizar estadísticas:', error.message);
     }
 }
 
-// Configurar para actualizar cada 3 minutos (180,000 milisegundos)
-setInterval(updateClubStats, 180000); // 3 minutos
+// Definir una ruta para obtener los jugadores
+app.get('/players', async (req, res) => {
+    const playersStats = await updateClubStats();
+    res.json(playersStats); // Enviar datos de jugadores
+});
 
 // Iniciar servidor
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
-    updateClubStats(); // Primera actualización al iniciar
+    setInterval(updateClubStats, 180000); // Actualizar estadísticas cada 3 minutos
 });
