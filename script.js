@@ -3,7 +3,7 @@
   import firebase from "https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js";
   import "https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js";
 
-  // Configuración de Firebase (tuya, no necesitas cambiar la API Key aquí)
+  // Configuración de Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBW-gAKIG7FNanxtur3h2aROaB9XNON40Y", // Esta es la API Key de tu proyecto Firebase, no la cambies aquí
     authDomain: "juego-multijugador-45b97.firebaseapp.com",
@@ -17,7 +17,9 @@
 
   // Inicializar Firebase con la configuración
   const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+  
+  // Acceder a la base de datos
+  const database = firebase.database();  // Aquí se usa firebase.database() directamente en v8
 
   // Aquí colocas solo la API Key de Brawl Stars (no la de Firebase)
   const API_KEY_BRAWLSTARS = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImIwMWVmNmFjLWYzZmYtNGUwMy04M2M4LTE1NjNkM2U0YmVjMyIsImlhdCI6MTczMjM0MTYwMCwic3ViIjoiZGV2ZWxvcGVyLzA5NDcwZWU2LTM4NjgtNmQ1ZS0xZDQ2LTgxMGFjOWQxNDJhZCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTA0LjE5Ny40Mi42NSIsIjM0LjQ0LjEzMy4zIl0sInR5cGUiOiJjbGllbnQifV19.ZjZR_Yp_HpFwolJM5d_VBlnDDACnyjNTcq7Gkb6fl9pVCpzyb376s5AkDRoTacuiZV8LwxykPoXTO7QOqZsKFw"; // Reemplaza con tu API key de Brawl Stars
@@ -38,7 +40,7 @@
 
   // Función para guardar estadísticas del jugador en Firebase
   function savePlayerStatsToFirebase(playerTag, playerName, trophies) {
-    const playerRef = database.ref('players/' + playerTag);
+    const playerRef = database.ref('players/' + playerTag); // Aquí usamos .ref() de Firebase v8
     playerRef.set({
       name: playerName,
       trophies: trophies
