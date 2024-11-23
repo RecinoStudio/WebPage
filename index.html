@@ -4,25 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miembros del Club</title>
-</head>
-<body>
-    <h1>Miembros del Club</h1>
 
-    <!-- Sección para mostrar los jugadores y sus estadísticas -->
-    <div id="players-info">
-        <p>Cargando jugadores...</p>
-    </div>
-
+    <!-- Importar Firebase SDK desde el CDN -->
     <script type="module">
-        // Obtener los datos de los jugadores desde el servidor
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+
+        // Configuración de Firebase (debe ser la misma que la configuración de tu proyecto en Firebase)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW-gAKIG7FNanxtur3h2aROaB9XNON40Y",
+            authDomain: "juego-multijugador-45b97.firebaseapp.com",
+            databaseURL: "https://juego-multijugador-45b97-default-rtdb.firebaseio.com",
+            projectId: "juego-multijugador-45b97",
+            storageBucket: "juego-multijugador-45b97.appspot.com",
+            messagingSenderId: "182032480602",
+            appId: "1:182032480602:web:8e7c94b002ec54f3641b63",
+            measurementId: "G-VS7N0F3HF0"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Obtener la lista de jugadores desde Firebase
         async function fetchClubMembers() {
+            const playersRef = ref(db, 'players');
             try {
-                const response = await fetch('/players-info'); // Ruta para obtener la información del club
-                const data = await response.json();
-                return data;
+                const snapshot = await get(playersRef);
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                } else {
+                    console.log('No hay datos disponibles.');
+                    return {};
+                }
             } catch (error) {
-                console.error('Error al obtener los miembros del club:', error);
-                return [];
+                console.error('Error al obtener los datos de Firebase:', error);
+                return {};
             }
         }
 
@@ -31,12 +48,12 @@
             const players = await fetchClubMembers();
             const playersInfoSection = document.getElementById('players-info');
 
-            if (players.length === 0) {
+            if (Object.keys(players).length === 0) {
                 playersInfoSection.innerHTML = '<p>No se pudo obtener la información de los jugadores.</p>';
                 return;
             }
 
-            const playersHtml = players.map(player => {
+            const playersHtml = Object.values(players).map(player => {
                 return `
                     <div>
                         <h2>${player.name}</h2>
@@ -52,5 +69,13 @@
         // Cargar la información al inicio
         document.addEventListener('DOMContentLoaded', renderPlayersInfo);
     </script>
+</head>
+<body>
+    <h1>Miembros del Club</h1>
+
+    <!-- Sección para mostrar los jugadores y sus estadísticas -->
+    <div id="players-info">
+        <p>Cargando jugadores...</p>
+    </div>
 </body>
 </html>
