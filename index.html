@@ -1,13 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego Multijugador</title>
-    <script type="module" src="/script.js"></script>
+    <title>Enviar Mensajes a Discord</title>
 </head>
 <body>
-    <h1>Bienvenido al juego multijugador</h1>
-    <div id="playerStats"></div>
+    <h1>Enviar Mensaje a Discord</h1>
+    <form id="discordForm">
+        <label for="message">Mensaje:</label><br>
+        <textarea id="message" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        const webhookURL = "TU_WEBHOOK_DE_DISCORD";
+
+        document.getElementById("discordForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const message = document.getElementById("message").value;
+
+            const payload = {
+                content: message
+            };
+
+            try {
+                const response = await fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert("Mensaje enviado a Discord");
+                } else {
+                    alert("Error al enviar el mensaje");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("No se pudo conectar al webhook");
+            }
+        });
+    </script>
 </body>
 </html>
