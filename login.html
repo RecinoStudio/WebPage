@@ -3,82 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar Sesión</title>
-  <link rel="icon" href="icono.png" type="image/png"> <!-- Reemplaza con la ruta de tu ícono -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    }
+  <title>Login</title>
 
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 90%;
+  <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #a7a7a7;
     }
 
     h1 {
-      text-align: center;
-      color: #333;
+        text-align: center;
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
     }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #ff7e5f;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    .input-container {
+        margin: 10px 0;
     }
 
-    button:hover {
-      background-color: #e0634d;
+    .input-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 16px;
     }
 
-    #error-message {
-      text-align: center;
-      color: red;
-      font-size: 14px;
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        display: block;
+        width: 100%;
     }
 
-    @media (max-width: 600px) {
-      .container {
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+    #jsonPreview {
+        background-color: #f4f4f9; /* Color de fondo suave */
         padding: 15px;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      input, button {
-        font-size: 14px;
-      }
+        margin-top: 20px;
+        border-radius: 8px;
+        white-space: pre-wrap;
+        font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada */
+        line-height: 1.5; /* Mejora la legibilidad */
+        color: #333; /* Texto oscuro para contraste */
+        border: 1px solid #ddd; /* Borde gris claro */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        max-width: 90%; /* Ajustar al tamaño de la pantalla */
+        overflow-x: auto; /* Permite desplazarse horizontalmente si el contenido es largo */
+        font-size: 14px; /* Tamaño de fuente cómodo */
     }
-  </style>
+
+    #jsonPreview span {
+        color: #007BFF; /* Colores para los diferentes campos */
+    }
+
+    #jsonPreview .key {
+        color: #3766ff; /* Color para las claves */
+        font-weight: bold;
+    }
+
+    #jsonPreview .value {
+        color: #000000; /* Color para los valores */
+    }
+
+
+    .client-item {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .client-item button {
+        padding: 10px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .client-item button:hover {
+        background-color: #d32f2f;
+    }
+
+    /* Contenedor para el logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo del logo */
+        #logo {
+            max-width: 150px;  /* Ajusta el tamaño según sea necesario */
+            height: auto;
+        }
+
+        /* Contenedor del formulario de inicio de sesión */
+        #loginForm {
+            width: 250%;
+            max-width: 400px; /* Controlar el ancho máximo */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        /* Añadir padding a los campos de entrada para que no toquen el borde */
+        #loginForm input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box; /* Incluye el padding dentro del ancho del input */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+
+        /* Estilo para los campos de entrada */
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        /* Botones */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+</style>
   <script type="module">
-    // Importar Firebase v9 (modular)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
     // Configuración de Firebase
     const firebaseConfig = {
@@ -92,33 +172,52 @@
       measurementId: "G-H7YS8ZX4PM"
     };
 
-    // Inicializar Firebase
+    // Inicializa Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Función de inicio de sesión
-    window.login = () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorMessage = document.getElementById("error-message");
+    // Manejo del login
+    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const email = event.target.email.value;
+      const password = event.target.password.value;
 
       signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          window.location.href = "index.html"; // Redirige tras el inicio de sesión exitoso
+        .then((userCredential) => {
+          // Redirige al centro de control después de un inicio de sesión exitoso
+          window.location.href = "index.html";
         })
         .catch((error) => {
-          errorMessage.textContent = "Error: " + error.message;
+          alert("Error al iniciar sesión: " + error.message);
         });
-    };
+    });
   </script>
 </head>
 <body>
-  <div class="container">
-    <h1>Iniciar Sesión</h1>
-    <input type="email" id="email" placeholder="Correo electrónico" />
-    <input type="password" id="password" placeholder="Contraseña" />
-    <button onclick="login()">Ingresar</button>
-    <p id="error-message"></p>
-  </div>
+  <form id="loginForm">
+    <div class="logo-container">
+        <img src="https://remodelacionesmartinez.com/Iconos/leaf.png" alt="Logo" id="logo">
+        <h3>Leaf Labs ©  | José Recinos Dev</h3>
+    </div>
+
+
+    <h1>Iniciar sesión</h1>
+
+    <div class="input-container">
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" placeholder="Correo electrónico"><br>
+    </div>
+
+    <div class="input-container">
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" placeholder="Contraseña"><br>
+</div>
+
+    <button type="submit" class="btn">Iniciar sesión</button>
+  </form>
+
+</div>  
 </body>
 </html>
