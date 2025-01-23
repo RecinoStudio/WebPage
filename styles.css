@@ -39,14 +39,14 @@ body {
   }
   
   .form button {
-    background-color: #0087ff;
+    background-color: #10c400;
     color: white;
     cursor: pointer;
     flex: 1 1 100%;
   }
   
   .form button:hover {
-    background-color: #006fcc;
+    background-color: #43a700;
   }
   
   .transactions {
@@ -115,12 +115,12 @@ body {
   }
   
   #logoutButton {
-    background-color: #007bff;
+    background-color: #ff7b00;
     color: white;
   }
   
   #logoutButton:hover {
-    background-color: #0056b3;
+    background-color: #b35700;
   }
   
   /* Estilos responsivos */
