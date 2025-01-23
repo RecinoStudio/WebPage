@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <link rel="icon" href="icono.png" type="image/png"> <!-- Reemplaza con la ruta de tu ícono -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ff7e5f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e0634d;
+    }
+
+    #error-message {
+      text-align: center;
+      color: red;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      input, button {
+        font-size: 14px;
+      }
+    }
+  </style>
+  <script type="module">
+    // Importar Firebase v9 (modular)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKWyP-wl3XXyCwLVOF-AWEGbMhpTj7j4w",
+      authDomain: "remodelacionesmz.firebaseapp.com",
+      databaseURL: "https://remodelacionesmz-default-rtdb.firebaseio.com",
+      projectId: "remodelacionesmz",
+      storageBucket: "remodelacionesmz.firebasestorage.app",
+      messagingSenderId: "517202804629",
+      appId: "1:517202804629:web:2ad27774863cec7787009c",
+      measurementId: "G-H7YS8ZX4PM"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Función de inicio de sesión
+    window.login = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorMessage = document.getElementById("error-message");
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          window.location.href = "index.html"; // Redirige tras el inicio de sesión exitoso
+        })
+        .catch((error) => {
+          errorMessage.textContent = "Error: " + error.message;
+        });
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Iniciar Sesión</h1>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="login()">Ingresar</button>
+    <p id="error-message"></p>
+  </div>
+</body>
+</html>

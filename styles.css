@@ -1,0 +1,223 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .form input,
+  .form select,
+  .form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1 1 calc(50% - 10px);
+    transition: all 0.3s ease;
+  }
+  
+  .form button {
+    background-color: #0087ff;
+    color: white;
+    cursor: pointer;
+    flex: 1 1 100%;
+  }
+  
+  .form button:hover {
+    background-color: #006fcc;
+  }
+  
+  .transactions {
+    margin-bottom: 20px;
+  }
+  
+  .transactions ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transactions li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .transactions li strong {
+    flex: 1 1 100%;
+    text-align: right;
+  }
+  
+  canvas {
+    max-width: 100%;
+  }
+  
+  #balance {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  #balance h2 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  /* Botones específicos */
+  .delete-btn,
+  #logoutButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    width: 100%; /* Responsivo por defecto */
+    max-width: 200px; /* No crecerá demasiado en pantallas grandes */
+    margin: 0 auto; /* Centrado */
+  }
+  
+  .delete-btn {
+    background-color: #ff0018;
+    color: white;
+    width: 50PX;
+  }
+  
+  .delete-btn:hover {
+    background-color: #9d000f;
+  }
+  
+  #logoutButton {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  #logoutButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .container {
+      margin: 20px auto;
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    .form input,
+    .form select,
+    .form button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    #balance h2 {
+      font-size: 20px;
+    }
+  
+    .transactions li {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form input,
+    .form select,
+    .form button {
+      flex: 1 1 100%;
+    }
+  
+    .transactions li {
+      flex-direction: column;
+    }
+  
+    .transactions li strong {
+      text-align: left;
+      margin-top: 5px;
+    }
+  
+    /* Botones en pantallas pequeñas */
+    .delete-btn,
+    #logoutButton {
+      font-size: 14px;
+      padding: 5px;
+      width: 100%; /* Ocupan todo el ancho */
+    }
+  }
+/* Clases para los colores de urgencia */
+.urgent {
+    background-color: #ff7b00;  /* Rojo para "Urgente" */
+    color: white;
+  }
+  
+  .very-urgent {
+    background-color: #ff0000;  /* Rosa fuerte para "Muy Urgente" */
+    color: white;
+  }
+  
+  .necessary {
+    background-color: #2bd3b7;  /* Verde para "Necesario" */
+    color: white;
+  }
+  
+  /* Estilos generales para los elementos de la lista */
+  li {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    list-style: none;
+  }
+  
+  .delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  footer p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+    

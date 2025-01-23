@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Icon Preview | Leaf Labs 2025 ©</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background: #f3f4f6;
+            color: #333;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .upload-btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-btn:hover {
+            background: #2980b9;
+        }
+        .icon-preview {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .icon-container {
+            text-align: center;
+        }
+        .icon-container img {
+            border-radius: 20%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background-color: #ecf0f1;
+        }
+        .label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Estilo para la notificación */
+        .notification-preview {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            max-width: 400px;
+            margin: 30px auto;
+            border-left: 6px solid #3498db;
+        }
+        .notification-icon img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+        }
+        .notification-text {
+            margin-left: 15px;
+            text-align: left;
+        }
+        .notification-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .notification-message {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>App Icon Preview | Leaf Labs 2025 ©</h1>
+    <input type="file" id="iconInput" accept="image/*" class="upload-btn">
+    
+    <div class="icon-preview">
+        <div class="icon-container">
+            <img id="homeScreenIcon" src="placeholder.png" width="100" height="100" alt="Home Screen Icon">
+            <div class="label">Home Screen (100x100)</div>
+        </div>
+        <div class="icon-container">
+            <img id="appStoreIcon" src="placeholder.png" width="150" height="150" alt="App Store Icon">
+            <div class="label">Google Play (512x512)</div>
+        </div>
+        <div class="icon-container">
+            <img id="notificationIcon" src="placeholder.png" width="50" height="50" alt="Notification Icon">
+            <div class="label">Notification (50x50)</div>
+        </div>
+    </div>
+
+    <!-- Notificación simulada -->
+    <div class="notification-preview">
+        <div class="notification-icon">
+            <img id="notificationPreviewIcon" src="placeholder.png" alt="Notification Icon">
+        </div>
+        <div class="notification-text">
+            <div class="notification-title">Notification</div>
+            <div class="notification-message">You have a new notification!</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('iconInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('homeScreenIcon').src = e.target.result;
+                    document.getElementById('appStoreIcon').src = e.target.result;
+                    document.getElementById('notificationIcon').src = e.target.result;
+                    document.getElementById('notificationPreviewIcon').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+</body>
+</html>
