@@ -1,44 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf Labs - Laboratorio Creativo</title>
     <link rel="shortcut icon" href="https://remodelacionesmartinez.com/Iconos/leaf.png" type="image/x-icon">
-  <link rel="shortcut icon" href="Icons/logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App de utilidades | Leaf Labs ©</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="app.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <button id="logoutButton">Cerrar sesión</button>
-    
-    <h1>Gestión de utilidades</h1>
-    <div id="summary">
-      <h2>Total Pedidos: <span id="totalOrders">0</span></h2>
-    </div>
-    <div class="form">
-      <input type="text" id="orderName" placeholder="Nombre del Pedido">
-      <input type="text" id="orderQuantity" placeholder="Cantidad (opcional)">
-      <select id="orderStatus">
-        <option value="pending">Urgente</option>
-        <option value="in-progress">Muy Urgente</option>
-        <option value="completed">Necesario</option>
-      </select>
-      <button id="addOrder">Agregar</button>
-    </div>
-    <div class="orders">
-      <h2>Historial Arte y diseño</h2>
-      <ul id="orderList"></ul>
-    </div>
-  </div>
-  
-  <!-- Pie de página -->
-  <footer>
-    <p>&copy; 2025 Leaf Labs. Todos los derechos reservados.</p>
-    <p>Contacto: jose2001.recinos@gmail.com</p>
-  </footer>
+    <header>       
+      <img class="lab-icon" src="https://remodelacionesmartinez.com/Iconos/leaf.png" alt="Leaf Labs Icon">
+        <h1>Leaf Labs</h1>
+        <p>Donde las ideas florecen como hojas en la innovación</p>
+    </header>
+
+    <section class="section">
+        <h2>Sobre Nosotros</h2>
+        <p><strong>Leaf Labs</strong> nació en 2024, fundado por <Strong>José Recinos</Strong>, con la visión de ser un verdadero laboratorio de creatividad, donde cada diseño es cultivado con dedicación e innovación.</p>
+    </section>
+
+    <section class="section">
+        <h2>Nuestro Portafolio</h2>
+        <p style="margin-bottom: 20px;">Explora nuestros experimentos gráficos en el laboratorio de hojas:</p>
+        
+        <div class="portfolio">
+            <div class="card">
+              <img src="https://scontent.fsal11-1.fna.fbcdn.net/v/t39.30808-6/481078307_122158610978370007_8340890883815359415_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=EMTxyYE0i3sQ7kNvgHjlRMd&_nc_oc=Adg6bj6AbSdPngGndvTY4pnJzf_ywTYuIZPN28IhcxsgBudd5iWZxH3JYQ581XkRrcY&_nc_zt=23&_nc_ht=scontent.fsal11-1.fna&_nc_gid=AukPIdvqF76tDwtjW4CtPON&oh=00_AYCAs_zHQyGybVh4cPPDTefr2ZpNcP9UOW6K4tqVCXRH4Q&oe=67C87195" alt="Logo 2">
+              <h3>Remodelaciones Martínez</h3>
+              <p>Fecha de creación: 25 de Junio 2024</p>
+              <p>Tipo de licencia: Reservada</p>
+              <p>Dueño: <a href="https://remodelacionesmartinez.com/" target="_blank">Remodelaciones Martínez</a></p>
+            </div>
+            <div class="card">
+              <img src="Arte/Deckorativa-ISOLOGO-LeafLabs(Joserecinosdev)-NoOut.jpg" alt="Logo 2">
+              <h3>Deckorativa</h3>
+              <p>Fecha de creación: 05 de Febrero 2025</p>
+              <p>Tipo de licencia: Reservada</p>
+              <p>Dueño: <a href="https://www.deckorativa.com/" target="_blank">Deckorativa</a></p>
+            </div>
+            <div class="card">
+              <img src="Arte/Salazar-Construcciones-LOGO.jpg" alt="Logo 2">
+              <h3>Salazar Construcciones</h3>
+              <p>Fecha de creación: 09 de Enero 2025</p>
+              <p>Tipo de licencia: Reservada</p>
+              <!-- <p>Dueño: <a href="" target="_blank">Deckorativa</a></p> -->
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Contacto</h2>
+        <p>Email: jose2001.recinos@gmail.com</p>
+        <p>WhatsApp: +503 7961 2436</p>
+        <p>Facebook: /JoseRecinosDev</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Leaf Labs - Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
